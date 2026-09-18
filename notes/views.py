@@ -2,6 +2,8 @@ from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
 from django.utils.html import escape
 
+from notes import data
+
 
 # Create your views here.
 def index(request: HttpRequest) -> HttpResponse:
@@ -27,4 +29,10 @@ def about(request: HttpRequest) -> HttpResponse:
 
 
 def notes_list(request: HttpRequest) -> HttpResponse:
-    return HttpResponse("Notes List (coming soon)")
+    notes = data.list_notes()
+    items: list[str] = []
+    for note in notes:
+        items.append(f"""
+            <li>{escape(note["title"])}</li>
+        """)
+    return HttpResponse(items)
