@@ -105,3 +105,30 @@ def create_note(
     _NOTES.append(note)
     _next_id += 1
     return note
+
+
+def update_note(
+    note_id: int,
+    title: str,
+    category: str,
+    tag: str,
+    body: str,
+):
+    note: dict[str, Any] = {}
+
+    for n in _NOTES:
+        if n["id"] == note_id:
+            note = n
+
+    note["title"] = title
+    note["category"] = category
+    note["tag"] = tag
+    note["body"] = body
+
+    return note
+
+
+def delete_note(note_id: int):
+    global _NOTES
+
+    _NOTES = [note for note in _NOTES if note["id"] != note_id]

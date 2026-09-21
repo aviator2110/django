@@ -1365,3 +1365,176 @@ def note_create(request: HttpRequest) -> HttpResponse:
     """
 
     return HttpResponse(html_shell("Note Create", form))
+
+
+def note_edit(request: HttpRequest, note_id: int) -> HttpResponse:
+    note = data.get_note(note_id)
+
+    if request.method == "POST":
+        title = request.POST["title"]
+        category = request.POST["category"]
+        tag = request.POST["tag"]
+        body = request.POST["body"]
+
+        if not title.strip():
+            err = "<p>Title can not be empty</p>"
+        else:
+            updated = data.update_note(
+                note_id=note_id,
+                title=title,
+                category=category,
+                tag=tag or "different",
+                body=body or "main",
+            )
+
+            detail_url = escape(
+                reverse(
+                    "note_detail",
+                    kwargs={"note_id": note_id},
+                )
+            )
+
+            return HttpResponse(
+                f"""
+                <h1>Note Updated</h1>
+                <p>id = {updated['id']}, title={escape(updated['title'])}</p>
+                <p>
+                    <a href="{detail_url}">
+                        Return to note
+                    </a>
+                </p>
+                """
+            )
+    else:
+        err = ""
+
+    action = escape(
+        reverse(
+            "note_edit",
+            kwargs={"note_id": note_id},
+        )
+    )
+
+    form = f"""
+        <form method="POST" action="{action}">
+            {_csrf_field(request)}
+
+            <h1>Edit note</h1>
+
+            {err}
+
+            <p>
+                <label>Title:</label>
+            </p>
+            <p>
+                <input
+                    type="text"
+                    name="title"
+                    value="{escape(note['title'])}"
+                    required
+                >
+            </p>
+
+            <p>
+                <label>Note:</label>
+            </p>
+            <p>
+                <input
+                    type="text"
+                    name="body"
+                    value="{escape(note['body'])}"
+                    required
+                >
+            </p>
+
+            <p>
+                <label>Category:</label>
+            </p>
+            <p>
+                <input
+                    type="text"
+                    name="category"
+                    value="{escape(note['category'])}"
+                    required
+                >
+            </p>
+
+            <p>
+                <label>Tag:</label>
+            </p>
+            <p>
+                <input
+                    type="text"
+                    name="tag"
+                    value="{escape(note['tag'])}"
+                    required
+                >
+            </p>
+
+            <p>
+                <button type="submit">Save</button>
+            </p>
+        </form>
+    """
+
+    return HttpResponse(
+        html_shell("Note Edit", form)
+    )
+
+
+def note_delete(request: HttpRequest, note_id: int) -> HttpResponse:
+    note = data.get_note(note_id)
+
+    if request.method == "POST":
+        data.delete_note(note_id)
+
+        list_url = escape(
+            reverse("notes_list")
+        )
+
+        return HttpResponse(
+            f"""
+            <h1>Note Deleted</h1>
+            <p>Note "{escape(note['title'])}" was deleted</p>
+            <p>
+                <a href="{list_url}">
+                    Return to notes
+                </a>
+            </p>
+            """
+        )
+
+    action = escape(
+        reverse(
+            "note_delete",
+            kwargs={"note_id": note_id},
+        )
+    )
+
+    list_url = escape(
+        reverse("notes_list")
+    )
+
+    form = f"""
+        <form method="POST" action="{action}">
+            {_csrf_field(request)}
+
+            <h1>Delete note</h1>
+
+            <p>
+                Are you sure you want to delete
+                "{escape(note['title'])}"?
+            </p>
+
+            <p>
+                <button type="submit">Delete</button>
+                <a href="{list_url}">
+                    Cancel
+                </a>
+            </p>
+        </form>
+    """
+
+    return HttpResponse(
+        html_shell("Note Delete", form)
+    )
