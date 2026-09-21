@@ -1,5 +1,6 @@
 from django.http import HttpRequest, HttpResponse
 from django.middleware.csrf import get_token
+from django.shortcuts import render
 from django.urls import reverse
 from django.utils.html import escape
 
@@ -938,292 +939,30 @@ def _csrf_field(request: HttpRequest) -> str:
 
 def index(request: HttpRequest) -> HttpResponse:
     body = f"""
-    <main class="container">
-
-        <section class="hero">
-
-            <div class="hero-badge">
-                <span>●</span>
-                Django Developer Workspace
-            </div>
-
-            <h1>
-                Welcome to<br>
-                Django Notes
-            </h1>
-
-            <p>
-                My personal space for programming notes,
-                backend development, Python, Django and
-                everything I learn along the way.
-            </p>
-
-            <div class="hero-actions">
-
-                <a
-                    class="btn btn-primary"
-                    href="{escape(reverse('notes_list'))}"
-                >
-                    Explore Notes →
-                </a>
-
-                <a
-                    class="btn btn-secondary"
-                    href="{escape(reverse('about'))}"
-                >
-                    About Project
-                </a>
-
-            </div>
-
-        </section>
-
-    </main>
+    
     """
 
-    return HttpResponse(html_shell("index", body))
+    return render(request, 'notes/home.html')
 
 
 def about(request: HttpRequest) -> HttpResponse:
     body = f"""
-    <main class="container">
-
-        <section class="hero">
-
-            <div class="hero-badge">
-                About the project
-            </div>
-
-            <h1>
-                Python.<br>
-                Django.<br>
-                Learning.
-            </h1>
-
-            <p>
-                This is my first Django project.
-                I'm using it to learn web development,
-                backend architecture and Python.
-            </p>
-
-            <div class="hero-actions">
-
-                <a
-                    class="btn btn-primary"
-                    href="{escape(reverse('notes_list'))}"
-                >
-                    View Notes →
-                </a>
-
-                <a
-                    class="btn btn-secondary"
-                    href="{escape(reverse('index'))}"
-                >
-                    ← Home
-                </a>
-
-            </div>
-
-        </section>
-
-    </main>
+    
     """
 
-    return HttpResponse(html_shell("About Django", body))
+    return render(request, 'templates/about.html')
 
 
 def notes_list(request: HttpRequest) -> HttpResponse:
-    raw_tag = request.GET.get("tag")
-    raw_category = request.GET.get("category")
-
     notes = data.list_notes()
 
-    if raw_tag:
-        tag_filter = raw_tag.strip().lower()
-        notes = [n for n in notes if n['tag'].lower() == tag_filter]
-
-    if raw_category:
-        category_filter = raw_category.strip().lower()
-        notes = [n for n in notes if n['category'].lower() == category_filter]
-
-    items: list[str] = []
-
-    for index, note in enumerate(notes, start=1):
-
-        url = reverse(
-            "note_detail",
-            kwargs={"note_id": note["id"]}
-        )
-
-        items.append(
-            f"""
-            <a href="{escape(url)}" class="note-card">
-
-                <div class="note-number">
-                    Note #{index:02d}
-                </div>
-
-                <div class="note-title">
-                    {escape(note["title"])}
-                </div>
-
-                <div class="note-preview">
-                    {escape(note["body"][:120])}...
-                </div>
-
-                <div class="meta">
-
-                    <span class="category">
-                        {escape(note["category"])}
-                    </span>
-
-                    <span class="tag">
-                        #{escape(note["tag"])}
-                    </span>
-
-                </div>
-
-                <div class="read-more">
-                    Read note
-                    <span>→</span>
-                </div>
-
-            </a>
-            """
-        )
-
-    body = f"""
-    <main class="container">
-
-        <section class="hero" style="padding-bottom: 45px;">
-
-            <div class="hero-badge">
-                Knowledge Base
-            </div>
-
-            <h1>
-                My Notes
-            </h1>
-
-            <p>
-                Thoughts, tutorials, experiments and
-                useful things I've learned while coding.
-            </p>
-
-        </section>
-
-        <section>
-
-            <div class="section-header">
-
-                <div class="section-title">
-                    All Notes
-                </div>
-
-                <div class="section-subtitle">
-                    {len(notes)} notes available
-                </div>
-
-            </div>
-
-            <div class="notes-grid">
-                {"".join(items)}
-            </div>
-
-        </section>
-
-    </main>
-    """
-
-    return HttpResponse(html_shell("Notes List", body))
+    return render(request, 'notes/notes_list.html', {'notes': notes})
 
 
 def note_detail(request: HttpRequest, note_id: int) -> HttpResponse:
     note = data.get_note(note_id)
 
-    edit_url = escape(
-        reverse(
-            "note_edit",
-            kwargs={"note_id": note_id}
-        )
-    )
-
-    delete_url = escape(
-        reverse(
-            "note_delete",
-            kwargs={"note_id": note_id}
-        )
-    )
-
-    body = f"""
-    <main class="container">
-
-        <div class="article-wrapper">
-
-            <article class="article">
-
-                <div class="hero-badge">
-                    Note #{note_id}
-                </div>
-
-                <h1>
-                    {escape(note["title"])}
-                </h1>
-
-                <div class="article-meta">
-
-                    <span class="category">
-                        {escape(note["category"])}
-                    </span>
-
-                    <span class="tag">
-                        #{escape(note["tag"])}
-                    </span>
-
-                </div>
-
-                <div class="article-body">
-                    {escape(note["body"])}
-                </div>
-
-                <div class="hero-actions">
-
-                    <a
-                        href="{edit_url}"
-                        class="btn btn-primary"
-                    >
-                        Edit Note
-                    </a>
-
-                    <a
-                        href="{delete_url}"
-                        class="btn btn-secondary"
-                    >
-                        Delete Note
-                    </a>
-
-                    <a
-                        href="{escape(reverse("notes_list"))}"
-                        class="btn btn-secondary"
-                    >
-                        ← Return to notes
-                    </a>
-
-                </div>
-
-            </article>
-
-        </div>
-
-    </main>
-    """
-
-    return HttpResponse(
-        html_shell(
-            f"{note['title']}",
-            body
-        )
-    )
+    return render(request, 'notes/note_detail.html', {'note': note})
 
 
 def note_create(request: HttpRequest) -> HttpResponse:

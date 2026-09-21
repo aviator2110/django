@@ -1,0 +1,23 @@
+{% if note %}
+	<h1>{{ note.title|title }}</h1>
+    <p>
+        <strong>Content: </strong>{{ note.content }}
+    </p>
+
+    <p>
+        <strong>Category: </strong>{{ note.category }}
+    </p>
+
+    <p>
+        <strong>Tags: </strong>{{ note.tags|join:', ' }}
+    </p>
+
+    <p>
+        <strong>Date: </strong>{{ note.created_at|date:"j F Y" }}
+    </p>
+{% else %}
+    <p>Note not found</p>
+{% endif %}
+<p>
+    <a href="{% url 'notes_list' %}">Return to notes list</a>
+</p>
