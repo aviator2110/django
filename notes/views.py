@@ -1141,6 +1141,20 @@ def notes_list(request: HttpRequest) -> HttpResponse:
 def note_detail(request: HttpRequest, note_id: int) -> HttpResponse:
     note = data.get_note(note_id)
 
+    edit_url = escape(
+        reverse(
+            "note_edit",
+            kwargs={"note_id": note_id}
+        )
+    )
+
+    delete_url = escape(
+        reverse(
+            "note_delete",
+            kwargs={"note_id": note_id}
+        )
+    )
+
     body = f"""
     <main class="container">
 
@@ -1172,12 +1186,30 @@ def note_detail(request: HttpRequest, note_id: int) -> HttpResponse:
                     {escape(note["body"])}
                 </div>
 
-                <a
-                    href="{escape(reverse("notes_list"))}"
-                    class="back-link"
-                >
-                    ← Return to notes
-                </a>
+                <div class="hero-actions">
+
+                    <a
+                        href="{edit_url}"
+                        class="btn btn-primary"
+                    >
+                        Edit Note
+                    </a>
+
+                    <a
+                        href="{delete_url}"
+                        class="btn btn-secondary"
+                    >
+                        Delete Note
+                    </a>
+
+                    <a
+                        href="{escape(reverse("notes_list"))}"
+                        class="btn btn-secondary"
+                    >
+                        ← Return to notes
+                    </a>
+
+                </div>
 
             </article>
 
