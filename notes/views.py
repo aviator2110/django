@@ -1427,15 +1427,46 @@ def note_edit(request: HttpRequest, note_id: int) -> HttpResponse:
             )
 
             return HttpResponse(
-                f"""
-                <h1>Note Updated</h1>
-                <p>id = {updated['id']}, title={escape(updated['title'])}</p>
-                <p>
-                    <a href="{detail_url}">
-                        Return to note
-                    </a>
-                </p>
-                """
+                html_shell(
+                    "Note Updated",
+                    f"""
+                    <main class="success-wrapper">
+
+                        <section class="success-card">
+
+                            <div class="success-icon">
+                                ✓
+                            </div>
+
+                            <div class="hero-badge">
+                                Note updated
+                            </div>
+
+                            <h1 class="success-title">
+                                Note Updated
+                            </h1>
+
+                            <p class="success-text">
+                                id = {updated['id']},
+                                title = {escape(updated['title'])}
+                            </p>
+
+                            <div class="hero-buttons">
+
+                                <a
+                                    href="{detail_url}"
+                                    class="button button-primary"
+                                >
+                                    Return to note →
+                                </a>
+
+                            </div>
+
+                        </section>
+
+                    </main>
+                    """
+                )
             )
     else:
         err = ""
@@ -1448,65 +1479,114 @@ def note_edit(request: HttpRequest, note_id: int) -> HttpResponse:
     )
 
     form = f"""
-        <form method="POST" action="{action}">
-            {_csrf_field(request)}
+        <main class="form-wrapper">
 
-            <h1>Edit note</h1>
+            <section class="form-card">
 
-            {err}
+                <div class="hero-badge">
+                    Edit your note
+                </div>
 
-            <p>
-                <label>Title:</label>
-            </p>
-            <p>
-                <input
-                    type="text"
-                    name="title"
-                    value="{escape(note['title'])}"
-                    required
+                <h1 class="form-title">
+                    Edit Note
+                </h1>
+
+                <p class="form-subtitle">
+                    Update the information of your note.
+                </p>
+
+                {f'<div class="form-error">{err}</div>' if err else ''}
+
+                <form
+                    method="POST"
+                    action="{action}"
+                    class="form"
                 >
-            </p>
 
-            <p>
-                <label>Note:</label>
-            </p>
-            <p>
-                <input
-                    type="text"
-                    name="body"
-                    value="{escape(note['body'])}"
-                    required
-                >
-            </p>
+                    {_csrf_field(request)}
 
-            <p>
-                <label>Category:</label>
-            </p>
-            <p>
-                <input
-                    type="text"
-                    name="category"
-                    value="{escape(note['category'])}"
-                    required
-                >
-            </p>
+                    <div class="form-group">
+                        <label class="form-label">
+                            Title
+                        </label>
 
-            <p>
-                <label>Tag:</label>
-            </p>
-            <p>
-                <input
-                    type="text"
-                    name="tag"
-                    value="{escape(note['tag'])}"
-                    required
-                >
-            </p>
+                        <input
+                            class="form-input"
+                            type="text"
+                            name="title"
+                            value="{escape(note['title'])}"
+                            required
+                        >
+                    </div>
 
-            <p>
-                <button type="submit">Save</button>
-            </p>
-        </form>
+                    <div class="form-group">
+                        <label class="form-label">
+                            Note
+                        </label>
+
+                        <textarea
+                            class="form-input form-textarea"
+                            name="body"
+                            required
+                        >{escape(note['body'])}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Category
+                        </label>
+
+                        <input
+                            class="form-input"
+                            type="text"
+                            name="category"
+                            value="{escape(note['category'])}"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Tag
+                        </label>
+
+                        <input
+                            class="form-input"
+                            type="text"
+                            name="tag"
+                            value="{escape(note['tag'])}"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-actions">
+
+                        <button
+                            type="submit"
+                            class="submit-button"
+                        >
+                            Save Changes →
+                        </button>
+
+                        <a
+                            href="{escape(
+                                reverse(
+                                    'note_detail',
+                                    kwargs={'note_id': note_id}
+                                )
+                            )}"
+                            class="button button-secondary"
+                        >
+                            Cancel
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </main>
     """
 
     return HttpResponse(
@@ -1525,15 +1605,49 @@ def note_delete(request: HttpRequest, note_id: int) -> HttpResponse:
         )
 
         return HttpResponse(
-            f"""
-            <h1>Note Deleted</h1>
-            <p>Note "{escape(note['title'])}" was deleted</p>
-            <p>
-                <a href="{list_url}">
-                    Return to notes
-                </a>
-            </p>
-            """
+            html_shell(
+                "Note Deleted",
+                f"""
+                <main class="success-wrapper">
+
+                    <section class="success-card">
+
+                        <div class="success-icon">
+                            ✓
+                        </div>
+
+                        <div class="hero-badge">
+                            Deletion completed
+                        </div>
+
+                        <h1 class="success-title">
+                            Note Deleted
+                        </h1>
+
+                        <p class="success-text">
+                            Note
+                            <strong>
+                                {escape(note['title'])}
+                            </strong>
+                            was deleted successfully.
+                        </p>
+
+                        <div class="hero-buttons">
+
+                            <a
+                                href="{list_url}"
+                                class="button button-primary"
+                            >
+                                Return to notes →
+                            </a>
+
+                        </div>
+
+                    </section>
+
+                </main>
+                """
+            )
         )
 
     action = escape(
@@ -1547,24 +1661,61 @@ def note_delete(request: HttpRequest, note_id: int) -> HttpResponse:
         reverse("notes_list")
     )
 
+    detail_url = escape(
+        reverse(
+            "note_detail",
+            kwargs={"note_id": note_id},
+        )
+    )
+
     form = f"""
-        <form method="POST" action="{action}">
-            {_csrf_field(request)}
+        <main class="success-wrapper">
 
-            <h1>Delete note</h1>
+            <section class="success-card">
 
-            <p>
-                Are you sure you want to delete
-                "{escape(note['title'])}"?
-            </p>
+                <div class="hero-badge">
+                    Delete note
+                </div>
 
-            <p>
-                <button type="submit">Delete</button>
-                <a href="{list_url}">
-                    Cancel
-                </a>
-            </p>
-        </form>
+                <h1 class="success-title">
+                    Delete Note?
+                </h1>
+
+                <p class="success-text">
+                    Are you sure you want to delete
+                    <strong>
+                        "{escape(note['title'])}"
+                    </strong>
+                    ?
+                </p>
+
+                <form
+                    method="POST"
+                    action="{action}"
+                    class="hero-buttons"
+                >
+
+                    {_csrf_field(request)}
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+                        Delete Note
+                    </button>
+
+                    <a
+                        href="{detail_url}"
+                        class="button button-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                </form>
+
+            </section>
+
+        </main>
     """
 
     return HttpResponse(
