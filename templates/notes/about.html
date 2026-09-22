@@ -1,50 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <main class="container">
+{% extends 'base.html' %}
+{% block title %}
+	About project
+{% endblock %}
 
-        <section class="hero">
+{% block content %}
+<main class="container">
 
-            <div class="hero-badge">
-                About the project
-            </div>
+    <section class="hero">
 
-            <h1>
-                Python.<br>
-                Django.<br>
-                Learning.
-            </h1>
+        <div class="hero-badge">
+            About the project
+        </div>
 
-            <p>
-                This is my first Django project.
-                I'm using it to learn web development,
-                backend architecture and Python.
-            </p>
+        <h1>
+            Python.<br>
+            Django.<br>
+            Learning.
+        </h1>
 
-            <div class="hero-actions">
+        <p>
+            This is my first Django project.
+            I'm using it to learn web development,
+            backend architecture and Python.
+        </p>
 
-                <a
-                    class="btn btn-primary"
-                    href="#"
-                >
-                    View Notes →
-                </a>
+        <div class="hero-actions">
 
-                <a
-                    class="btn btn-secondary"
-                    href="#"
-                >
-                    ← Home
-                </a>
+            <a
+                class="btn btn-primary"
+                href="{% url 'notes_list' %}"
+            >
+                View Notes →
+            </a>
 
-            </div>
+            <a
+                class="btn btn-secondary"
+                href="{% url 'home' %}"
+            >
+                ← Home
+            </a>
 
-        </section>
+        </div>
 
-    </main>
-</body>
-</html>
+    </section>
+
+</main>
+{% endblock %}

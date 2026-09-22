@@ -1,4 +1,5 @@
-{% include '_page_header.html' %}
+{% extends "base.html" %}
+{% block content %}
 <main class="container">
 
     <section class="hero">
@@ -23,14 +24,14 @@
 
             <a
                 class="btn btn-primary"
-                href="#"
+                href="{% url 'notes_list' %}"
             >
                 Explore Notes →
             </a>
 
             <a
                 class="btn btn-secondary"
-                href="#"
+                href="{% url 'about' %}"
             >
                 About Project
             </a>
@@ -40,3 +41,4 @@
     </section>
 
 </main>
+{% endblock %}

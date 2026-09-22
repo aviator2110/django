@@ -1,24 +1,70 @@
-{% with total=notes|length %}
-    <h1>Notes list - {{ total }}</h1>
-{% endwith %}
-<ul>
-    {% for note in notes %}
-        <li>
-            <a href="{% url 'note_detail' note.id %}">
-                {{ note.title }}
-                {% if note.category == "backend" %}
-                	<span style="color: red">Category: {{ note.category }}</span>
-                {% elif note.category == "programming"%}
-                    <span style="color: green">Category: {{ note.category }}</span>
-                {% else %}
-                    <span style="color: black">Category: {{ note.category }}</span>
-                {% endif %}
+{% extends "base.html" %}
 
-                Tag: {{ note.tags }}
+{% block title %}
+    Notes list
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% with total=notes|length %}
+        <div class="section-header">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;">
+                <div>
+                    <h1 class="section-title">Notes list</h1>
+                    <p class="section-subtitle">
+                        Total notes: {{ total }}
+                    </p>
+                </div>
+
+                <a
+                    class="btn btn-primary"
+                    href="{% url 'note_create' %}"
+                >
+                    + Create note
+                </a>
+            </div>
+        </div>
+    {% endwith %}
+
+    <div class="notes-grid">
+        {% for note in notes %}
+            <a
+                class="note-card"
+                href="{% url 'note_detail' note.id %}"
+            >
+                <div class="note-number">
+                    Note #{{ note.id }}
+                </div>
+
+                <h2 class="note-title">
+                    {{ note.title|title }}
+                </h2>
+
+                <p class="note-preview">
+                    {{ note.content|truncatewords:20 }}
+                </p>
+
+                <div class="meta">
+                    <span class="category">
+                        {{ note.category }}
+                    </span>
+
+                    {% if note.tags %}
+                        <span class="tag">
+                            {{ note.tags|join:", " }}
+                        </span>
+                    {% endif %}
+                </div>
             </a>
-        </li>
         {% empty %}
-        <li>Empty note list</li>
-    {% endfor %}
-</ul>
+            <div class="article">
+                <h2>No notes yet</h2>
 
+                <p class="article-body">
+                    The notes list is currently empty.
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

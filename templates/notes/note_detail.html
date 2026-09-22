@@ -1,23 +1,81 @@
-{% if note %}
-	<h1>{{ note.title|title }}</h1>
-    <p>
-        <strong>Content: </strong>{{ note.content }}
-    </p>
+{% extends "base.html" %}
 
-    <p>
-        <strong>Category: </strong>{{ note.category }}
-    </p>
+{% block title %}
+    {% if note %}
+        {{ note.title }}
+    {% else %}
+        Note is not found
+    {% endif %}
+{% endblock %}
 
-    <p>
-        <strong>Tags: </strong>{{ note.tags|join:', ' }}
-    </p>
+{% block content %}
+<div class="article-wrapper">
+    <article class="article">
+        {% if note %}
+            <div class="note-number">
+                Note #{{ note.id }}
+            </div>
 
-    <p>
-        <strong>Date: </strong>{{ note.created_at|date:"j F Y" }}
-    </p>
-{% else %}
-    <p>Note not found</p>
-{% endif %}
-<p>
-    <a href="{% url 'notes_list' %}">Return to notes list</a>
-</p>
+            <h1>{{ note.title|title }}</h1>
+
+            <div class="article-meta">
+                <span class="category">
+                    {{ note.category }}
+                </span>
+
+                {% if note.tags %}
+                    <span class="tag">
+                        {{ note.tags|join:", " }}
+                    </span>
+                {% endif %}
+            </div>
+
+            <div class="article-body">
+                {{ note.content }}
+            </div>
+
+            <div class="article-meta">
+                <span class="note-number">
+                    Created: {{ note.created_at|date:"j F Y" }}
+                </span>
+            </div>
+
+            <div class="article-actions">
+                <a
+                    class="btn btn-primary"
+                    href="{% url 'note_edit' note.id %}"
+                >
+                    Edit
+                </a>
+
+                <a
+                    class="btn btn-secondary"
+                    href="{% url 'note_delete' note.id %}"
+                >
+                    Delete
+                </a>
+
+                <a
+                    class="back-link"
+                    href="{% url 'notes_list' %}"
+                >
+                    ← Notes list
+                </a>
+            </div>
+        {% else %}
+            <h1>Note is not found</h1>
+
+            <div class="article-body">
+                <p>The requested note could not be found.</p>
+            </div>
+
+            <a
+                class="back-link"
+                href="{% url 'notes_list' %}"
+            >
+                ← Return to notes list
+            </a>
+        {% endif %}
+    </article>
+</div>
+{% endblock %}

@@ -938,19 +938,13 @@ def _csrf_field(request: HttpRequest) -> str:
 
 
 def index(request: HttpRequest) -> HttpResponse:
-    body = f"""
-    
-    """
 
     return render(request, 'notes/home.html')
 
 
 def about(request: HttpRequest) -> HttpResponse:
-    body = f"""
-    
-    """
 
-    return render(request, 'templates/about.html')
+    return render(request, 'notes/about.html')
 
 
 def notes_list(request: HttpRequest) -> HttpResponse:
