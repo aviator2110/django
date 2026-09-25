@@ -104,7 +104,6 @@ def create_note(
         content: str,
         tags: list[str],
         category: str,
-        created_at: datetime,
 ) -> dict[str, Any]:
     global _next_id
 
@@ -114,7 +113,6 @@ def create_note(
         "content": content,
         "tags": tags,
         "category": category,
-        "created_at": created_at,
     }
 
     _NOTES.append(note)
@@ -129,7 +127,6 @@ def update_note(
     category: str,
     tags: list[str],
     content: str,
-    created_at: datetime,
 ):
     note: dict[str, Any] = {}
 
@@ -141,7 +138,6 @@ def update_note(
     note["category"] = category
     note["tags"] = tags
     note["content"] = content
-    note["created_at"] = created_at
 
     return note
 
