@@ -9,70 +9,58 @@
 {% endblock %}
 
 {% block content %}
-<div class="article-wrapper">
-    <article class="article">
+<div>
+    <article>
         {% if note %}
-            <div class="note-number">
+            <div>
                 Note #{{ note.id }}
             </div>
 
             <h1>{{ note.title|title }}</h1>
 
-            <div class="article-meta">
-                <span class="category">
+            <div>
+                <span>
                     {{ note.category }}
                 </span>
 
                 {% if note.tags %}
-                    <span class="tag">
+                    <span>
                         {{ note.tags|join:", " }}
                     </span>
                 {% endif %}
             </div>
 
-            <div class="article-body">
+            <div>
                 {{ note.content }}
             </div>
 
-            <div class="article-meta">
-                <span class="note-number">
+            <div>
+                <span>
                     Created: {{ note.created_at|date:"j F Y" }}
                 </span>
             </div>
 
-            <div class="article-actions">
-                <a
-                    class="btn btn-primary"
-                    href="{% url 'note_edit' note.id %}"
-                >
+            <div>
+                <a href="{% url 'note_edit' note.id %}">
                     Edit
                 </a>
 
-                <a
-                    class="btn btn-secondary"
-                    href="{% url 'note_delete' note.id %}"
-                >
+                <a href="{% url 'note_delete' note.id %}">
                     Delete
                 </a>
 
-                <a
-                    class="back-link"
-                    href="{% url 'notes_list' %}"
-                >
+                <a href="{% url 'notes_list' %}">
                     ← Notes list
                 </a>
             </div>
         {% else %}
             <h1>Note is not found</h1>
 
-            <div class="article-body">
+            <div>
                 <p>The requested note could not be found.</p>
             </div>
 
-            <a
-                class="back-link"
-                href="{% url 'notes_list' %}"
-            >
+            <a href="{% url 'notes_list' %}">
                 ← Return to notes list
             </a>
         {% endif %}

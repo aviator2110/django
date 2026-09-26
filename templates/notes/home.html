@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<main class="container">
+<main>
 
-    <section class="hero">
+    <section>
 
-        <div class="hero-badge">
+        <div>
             <span>●</span>
             Django Developer Workspace
         </div>
@@ -20,19 +20,13 @@
             everything I learn along the way.
         </p>
 
-        <div class="hero-actions">
+        <div>
 
-            <a
-                class="btn btn-primary"
-                href="{% url 'notes_list' %}"
-            >
+            <a href="{% url 'notes_list' %}">
                 Explore Notes →
             </a>
 
-            <a
-                class="btn btn-secondary"
-                href="{% url 'about' %}"
-            >
+            <a href="{% url 'about' %}">
                 About Project
             </a>
 

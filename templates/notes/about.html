@@ -4,11 +4,11 @@
 {% endblock %}
 
 {% block content %}
-<main class="container">
+<main>
 
-    <section class="hero">
+    <section>
 
-        <div class="hero-badge">
+        <div>
             About the project
         </div>
 
@@ -24,19 +24,13 @@
             backend architecture and Python.
         </p>
 
-        <div class="hero-actions">
+        <div>
 
-            <a
-                class="btn btn-primary"
-                href="{% url 'notes_list' %}"
-            >
+            <a href="{% url 'notes_list' %}">
                 View Notes →
             </a>
 
-            <a
-                class="btn btn-secondary"
-                href="{% url 'home' %}"
-            >
+            <a href="{% url 'home' %}">
                 ← Home
             </a>
 

@@ -5,62 +5,56 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div>
     {% with total=notes|length %}
-        <div class="section-header">
-            <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;">
+        <div>
+            <div>
                 <div>
-                    <h1 class="section-title">Notes list</h1>
-                    <p class="section-subtitle">
+                    <h1>Notes list</h1>
+                    <p>
                         Total notes: {{ total }}
                     </p>
                 </div>
 
-                <a
-                    class="btn btn-primary"
-                    href="{% url 'note_create' %}"
-                >
+                <a href="{% url 'note_create' %}">
                     + Create note
                 </a>
             </div>
         </div>
     {% endwith %}
 
-    <div class="notes-grid">
+    <div>
         {% for note in notes %}
-            <a
-                class="note-card"
-                href="{% url 'note_detail' note.id %}"
-            >
-                <div class="note-number">
+            <a href="{% url 'note_detail' note.id %}">
+                <div>
                     Note #{{ note.id }}
                 </div>
 
-                <h2 class="note-title">
+                <h2>
                     {{ note.title|title }}
                 </h2>
 
-                <p class="note-preview">
+                <p>
                     {{ note.content|truncatewords:20 }}
                 </p>
 
-                <div class="meta">
-                    <span class="category">
+                <div>
+                    <span>
                         {{ note.category }}
                     </span>
 
                     {% if note.tags %}
-                        <span class="tag">
+                        <span>
                             {{ note.tags|join:", " }}
                         </span>
                     {% endif %}
                 </div>
             </a>
         {% empty %}
-            <div class="article">
+            <div>
                 <h2>No notes yet</h2>
 
-                <p class="article-body">
+                <p>
                     The notes list is currently empty.
                 </p>
             </div>
