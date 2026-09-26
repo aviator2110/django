@@ -1,13 +1,24 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}
-    Create new
-{% endblock %}
+{% block title %}New Record — Archive{% endblock %}
 
 {% block content %}
+<article>
+    <header>
+        <small>Catalog Registration</small>
+        <time>New Entry</time>
+    </header>
+
+    <h1>New Record</h1>
+    <p>Provide details below to catalog this entry in the archive.</p>
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Create</button>
+        <nav>
+            <button type="submit">Save to Archive</button>
+            <a href="{% url 'notes_list' %}">Cancel</a>
+        </nav>
     </form>
+</article>
 {% endblock %}

@@ -1,42 +1,34 @@
-{% extends 'base.html' %}
-{% block title %}
-	About project
-{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}About — Knowledge Archive{% endblock %}
 
 {% block content %}
-<main>
+<article>
+    <header>
+        <small>Colophon &bull; Manifesto</small>
+        <time>Edition 1.0</time>
+    </header>
 
-    <section>
+    <h1>About the Project</h1>
 
-        <div>
-            About the project
-        </div>
+    <p>
+        This web workspace is crafted as an intellectual catalog and engineering journal
+        for mastering Python, web architecture, and the Django framework.
+    </p>
 
-        <h1>
-            Python.<br>
-            Django.<br>
-            Learning.
-        </h1>
+    <blockquote>
+        “Semantic clarity and clean data structures precede ornamental styling.”
+    </blockquote>
 
-        <p>
-            This is my first Django project.
-            I'm using it to learn web development,
-            backend architecture and Python.
-        </p>
+    <p>
+        The visual interface is built upon the philosophy of <strong>Classless CSS</strong>.
+        There is not a single presentation class in the markup. Typography, rhythm, layout grids,
+        and responsive adaptivity are derived purely from native HTML5 elements.
+    </p>
 
-        <div>
-
-            <a href="{% url 'notes_list' %}">
-                View Notes →
-            </a>
-
-            <a href="{% url 'home' %}">
-                ← Home
-            </a>
-
-        </div>
-
-    </section>
-
-</main>
+    <nav>
+        <a role="button" href="{% url 'notes_list' %}">Browse Notes</a>
+        <a href="{% url 'home' %}">← Return Home</a>
+    </nav>
+</article>
 {% endblock %}

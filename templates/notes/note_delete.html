@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    DELETE
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Delete Record — Archive{% endblock %}
+
+{% block content %}
+<article>
+    <header>
+        <small>Warning</small>
+        <time>Confirmation Required</time>
+    </header>
+
+    <h1>Delete Record</h1>
+    <p>Are you sure you want to permanently delete this entry from the archive?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <nav>
+            <button type="submit">Confirm Deletion</button>
+            <a href="{% url 'notes_list' %}">Cancel</a>
+        </nav>
+    </form>
+</article>
+{% endblock %}

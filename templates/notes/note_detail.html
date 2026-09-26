@@ -2,68 +2,51 @@
 
 {% block title %}
     {% if note %}
-        {{ note.title }}
+        {{ note.title|title }} — Archive
     {% else %}
-        Note is not found
+        Record Not Found — Archive
     {% endif %}
 {% endblock %}
 
 {% block content %}
-<div>
+{% if note %}
     <article>
-        {% if note %}
-            <div>
-                Note #{{ note.id }}
-            </div>
+        <header>
+            <small>Record No. {{ note.id }} &bull; Category: {{ note.category }}</small>
+            <time>{{ note.created_at|date:"F j, Y" }}</time>
+        </header>
 
-            <h1>{{ note.title|title }}</h1>
+        <h1>{{ note.title|title }}</h1>
 
-            <div>
-                <span>
-                    {{ note.category }}
-                </span>
+        <div>
+            <p>{{ note.content|linebreaks }}</p>
+        </div>
 
-                {% if note.tags %}
-                    <span>
-                        {{ note.tags|join:", " }}
-                    </span>
-                {% endif %}
-            </div>
-
-            <div>
-                {{ note.content }}
-            </div>
-
-            <div>
-                <span>
-                    Created: {{ note.created_at|date:"j F Y" }}
-                </span>
-            </div>
-
-            <div>
-                <a href="{% url 'note_edit' note.id %}">
-                    Edit
-                </a>
-
-                <a href="{% url 'note_delete' note.id %}">
-                    Delete
-                </a>
-
-                <a href="{% url 'notes_list' %}">
-                    ← Notes list
-                </a>
-            </div>
-        {% else %}
-            <h1>Note is not found</h1>
-
-            <div>
-                <p>The requested note could not be found.</p>
-            </div>
-
-            <a href="{% url 'notes_list' %}">
-                ← Return to notes list
-            </a>
+        {% if note.tags %}
+            <footer>
+                <small>Tags: {{ note.tags|join:", " }}</small>
+            </footer>
         {% endif %}
+
+        <nav>
+            <a role="button" href="{% url 'note_edit' note.id %}">Edit</a>
+            <a role="button" href="{% url 'note_delete' note.id %}">Delete</a>
+            <a href="{% url 'notes_list' %}">← Back to Notes</a>
+        </nav>
     </article>
-</div>
+{% else %}
+    <article>
+        <header>
+            <small>Error 404</small>
+        </header>
+
+        <h1>Record Not Found</h1>
+
+        <p>The requested note does not exist in the catalog or has been moved or deleted.</p>
+
+        <nav>
+            <a role="button" href="{% url 'notes_list' %}">← Return to Notes List</a>
+        </nav>
+    </article>
+{% endif %}
 {% endblock %}

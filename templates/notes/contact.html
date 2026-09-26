@@ -1,15 +1,24 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}
-    Feedback page
-{% endblock %}
+{% block title %}Contact &amp; Feedback — Archive{% endblock %}
 
 {% block content %}
+<article>
+    <header>
+        <small>Correspondence</small>
+        <time>Feedback Form</time>
+    </header>
+
+    <h1>Contact &amp; Feedback</h1>
+    <p>Send a message or inquiry to the archive maintainer.</p>
 
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Send</button>
+        <nav>
+            <button type="submit">Send Message</button>
+            <a href="{% url 'home' %}">Return Home</a>
+        </nav>
     </form>
-
+</article>
 {% endblock %}

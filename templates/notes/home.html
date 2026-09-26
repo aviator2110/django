@@ -1,38 +1,37 @@
 {% extends "base.html" %}
+
+{% block title %}Home — Personal Knowledge Archive{% endblock %}
+
 {% block content %}
-<main>
-
-    <section>
-
+<section>
+    <header>
         <div>
-            <span>●</span>
-            Django Developer Workspace
+            <small>Archival System &bull; Vol. 1.0</small>
+            <h1>Personal Engineering Knowledge Archive</h1>
+            <p>
+                A curated workspace for practical notes, backend architecture insights,
+                Python design patterns, and Django principles learned along the way.
+            </p>
         </div>
+    </header>
 
-        <h1>
-            Welcome to<br>
-            Django Notes
-        </h1>
+    <article>
+        <header>
+            <small>Quick Start</small>
+            <time>Local Archive</time>
+        </header>
 
+        <h2>Knowledge Records</h2>
         <p>
-            My personal space for programming notes,
-            backend development, Python, Django and
-            everything I learn along the way.
+            Every archival entry features a designated category, tagged topics, and creation timestamps.
+            Capture a new thought or explore the complete directory of notes.
         </p>
 
-        <div>
-
-            <a href="{% url 'notes_list' %}">
-                Explore Notes →
-            </a>
-
-            <a href="{% url 'about' %}">
-                About Project
-            </a>
-
-        </div>
-
-    </section>
-
-</main>
+        <nav>
+            <a role="button" href="{% url 'notes_list' %}">Explore Archive →</a>
+            <a role="button" href="{% url 'note_create' %}">+ New Record</a>
+            <a href="{% url 'about' %}">About Project</a>
+        </nav>
+    </article>
+</section>
 {% endblock %}

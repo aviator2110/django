@@ -1,64 +1,50 @@
 {% extends "base.html" %}
 
-{% block title %}
-    Notes list
-{% endblock %}
+{% block title %}Notes Directory — Archive{% endblock %}
 
 {% block content %}
-<div>
+<section>
     {% with total=notes|length %}
+    <header>
         <div>
-            <div>
-                <div>
-                    <h1>Notes list</h1>
-                    <p>
-                        Total notes: {{ total }}
-                    </p>
-                </div>
-
-                <a href="{% url 'note_create' %}">
-                    + Create note
-                </a>
-            </div>
+            <small>Index Catalog &bull; Local Collection</small>
+            <h1>Notes Directory</h1>
+            <p>Total archival records: <strong>{{ total }}</strong></p>
         </div>
+
+        <a role="button" href="{% url 'note_create' %}">+ New Record</a>
+    </header>
     {% endwith %}
 
-    <div>
+    <section>
         {% for note in notes %}
-            <a href="{% url 'note_detail' note.id %}">
-                <div>
-                    Note #{{ note.id }}
-                </div>
+            <article>
+                <header>
+                    <small>No. {{ note.id }} &bull; {{ note.category }}</small>
+                    <time>{{ note.created_at|date:"M j, Y" }}</time>
+                </header>
 
                 <h2>
-                    {{ note.title|title }}
+                    <a href="{% url 'note_detail' note.id %}">{{ note.title|title }}</a>
                 </h2>
 
                 <p>
-                    {{ note.content|truncatewords:20 }}
+                    {{ note.content|truncatewords:22 }}
                 </p>
 
-                <div>
-                    <span>
-                        {{ note.category }}
-                    </span>
-
-                    {% if note.tags %}
-                        <span>
-                            {{ note.tags|join:", " }}
-                        </span>
-                    {% endif %}
-                </div>
-            </a>
+                {% if note.tags %}
+                    <footer>
+                        <small>Tags: {{ note.tags|join:", " }}</small>
+                    </footer>
+                {% endif %}
+            </article>
         {% empty %}
-            <div>
-                <h2>No notes yet</h2>
-
-                <p>
-                    The notes list is currently empty.
-                </p>
-            </div>
+            <article>
+                <h2>Archive is Empty</h2>
+                <p>No saved entries have been cataloged in the archive yet.</p>
+                <a role="button" href="{% url 'note_create' %}">Create First Record</a>
+            </article>
         {% endfor %}
-    </div>
-</div>
+    </section>
+</section>
 {% endblock %}

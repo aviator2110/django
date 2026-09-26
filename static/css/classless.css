@@ -1,0 +1,729 @@
+/* ==========================================================================
+   ARCHIVAL ATELIER — BESPOKE CLASSLESS CSS
+   A human, editorial-first design system with ZERO class dependencies.
+   Typography: Fraunces (Editorial Serif) + Plus Jakarta Sans + JetBrains Mono.
+   Palette: Warm Archival Paper & Deep Carbon Ink / Terracotta Wax Seal.
+   ========================================================================== */
+
+:root {
+    --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    /* Light Theme (Archival Paper & Ink) */
+    --bg-canvas: #f8f5ee;
+    --bg-surface: #ffffff;
+    --bg-subtle: #f1ede3;
+    --bg-tag: #ece6da;
+
+    --border-color: #e2ddd1;
+    --border-strong: #1e1c19;
+    --border-subtle: #eeeae0;
+
+    --text-primary: #1c1b18;
+    --text-secondary: #6e695e;
+    --text-tertiary: #9c9689;
+
+    --accent: #b8441f; /* Warm Terracotta */
+    --accent-hover: #9c3615;
+    --accent-light: #fbeee8;
+    --accent-ring: rgba(184, 68, 31, 0.2);
+
+    --btn-bg: #1c1b18;
+    --btn-text: #f8f5ee;
+    --btn-hover-bg: #b8441f;
+    --btn-hover-text: #ffffff;
+
+    --card-shadow: 0 1px 2px rgba(28, 27, 24, 0.04), 0 4px 12px rgba(28, 27, 24, 0.03);
+    --card-shadow-hover: 0 3px 6px rgba(28, 27, 24, 0.06), 0 12px 24px rgba(28, 27, 24, 0.06);
+
+    --radius-sm: 3px;
+    --radius-md: 6px;
+    --radius-lg: 10px;
+
+    --container-width: 920px;
+    --header-height: 72px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Dark Theme (Basalt & Warm Amber Ember) */
+        --bg-canvas: #131415;
+        --bg-surface: #1a1c1d;
+        --bg-subtle: #222527;
+        --bg-tag: #282a2d;
+
+        --border-color: #2b2e31;
+        --border-strong: #ebe7dd;
+        --border-subtle: #222427;
+
+        --text-primary: #ede8dc;
+        --text-secondary: #a39e93;
+        --text-tertiary: #6b675e;
+
+        --accent: #e26e47; /* Warm Amber Terracotta */
+        --accent-hover: #f0835f;
+        --accent-light: #281d18;
+        --accent-ring: rgba(226, 110, 71, 0.25);
+
+        --btn-bg: #ede8dc;
+        --btn-text: #131415;
+        --btn-hover-bg: #e26e47;
+        --btn-hover-text: #ffffff;
+
+        --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 6px 16px rgba(0, 0, 0, 0.2);
+        --card-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.4), 0 14px 28px rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* ==========================================================================
+   RESET & FOUNDATIONS
+   ========================================================================== */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100vh;
+    font-family: var(--font-sans);
+    font-size: 1.02rem;
+    line-height: 1.68;
+    color: var(--text-primary);
+    background-color: var(--bg-canvas);
+    display: flex;
+    flex-direction: column;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Delicate stationery grain texture overlay */
+    background-image: radial-gradient(var(--border-color) 0.75px, transparent 0.75px);
+    background-size: 24px 24px;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    font-feature-settings: "kern" 1, "liga" 1;
+}
+
+h1 {
+    font-size: clamp(2rem, 4vw + 0.5rem, 3.1rem);
+    margin-bottom: 0.8rem;
+    font-weight: 450;
+    letter-spacing: -0.03em;
+}
+
+h2 {
+    font-size: clamp(1.4rem, 2.5vw + 0.2rem, 1.9rem);
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+}
+
+h3 {
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    margin-bottom: 1.2rem;
+    color: var(--text-secondary);
+}
+
+p:last-child {
+    margin-bottom: 0;
+}
+
+small {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+}
+
+time {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    color: var(--text-tertiary);
+}
+
+strong, b {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+em, i {
+    font-family: var(--font-serif);
+    font-style: italic;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2.5rem 0;
+}
+
+blockquote {
+    border-left: 2px solid var(--accent);
+    padding: 0.6rem 0 0.6rem 1.4rem;
+    margin: 1.8rem 0;
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   LINKS
+   ========================================================================== */
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+
+/* Text inline links */
+p a, article div a:not([role="button"]) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+p a:hover, article div a:not([role="button"]):hover {
+    color: var(--accent-hover);
+    text-decoration-thickness: 2px;
+}
+
+/* ==========================================================================
+   HEADER & NAVIGATION (Classless Masthead)
+   ========================================================================== */
+
+body > header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--bg-canvas);
+    border-bottom: 1px solid var(--border-color);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+body > header nav {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Brand Link */
+body > header nav > a:first-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 550;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+}
+
+body > header nav > a:first-child strong {
+    font-family: var(--font-serif);
+    font-weight: 600;
+}
+
+body > header nav > a:first-child::before {
+    content: "¶";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    color: var(--accent);
+    background-color: var(--accent-light);
+    border-radius: var(--radius-sm);
+    line-height: 1;
+}
+
+/* Nav links container */
+body > header nav div {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+body > header nav div a {
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    position: relative;
+    padding: 0.4rem 0;
+}
+
+body > header nav div a:hover {
+    color: var(--text-primary);
+}
+
+body > header nav div a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1.5px;
+    background-color: var(--accent);
+    transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body > header nav div a:hover::after {
+    width: 100%;
+}
+
+/* Highlight button in nav (last link) */
+body > header nav div a:last-child {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--radius-sm);
+}
+
+body > header nav div a:last-child:hover {
+    background-color: var(--accent);
+    color: #ffffff;
+}
+
+body > header nav div a:last-child::after {
+    display: none;
+}
+
+/* ==========================================================================
+   MAIN CONTENT CONTAINER
+   ========================================================================== */
+
+main {
+    flex: 1;
+    max-width: var(--container-width);
+    width: 100%;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4.5rem;
+}
+
+/* ==========================================================================
+   SECTION HEADERS (Editorial Hero & Page Titles)
+   ========================================================================== */
+
+main > section > header,
+main > header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.8rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1.5rem;
+}
+
+main > section > header > div:first-child,
+main > header > div:first-child {
+    max-width: 600px;
+}
+
+main > section > header small,
+main > header small {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   ARTICLES & CARDS (The Index Card Aesthetic)
+   ========================================================================== */
+
+/* Grid container for articles */
+main section:has(> article),
+main div:has(> article) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.6rem;
+    align-items: stretch;
+}
+
+article {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.8rem;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Card hover: architectural tactile lift */
+main section:has(> article) article:hover,
+main div:has(> article) article:hover {
+    transform: translateY(-2px);
+    border-color: var(--text-tertiary);
+    box-shadow: var(--card-shadow-hover);
+}
+
+/* Article Header: Meta line */
+article > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px dotted var(--border-color);
+}
+
+article > header small {
+    font-size: 0.76rem;
+    color: var(--accent);
+}
+
+article > header time {
+    font-size: 0.76rem;
+}
+
+article h2 {
+    font-size: 1.45rem;
+    margin-bottom: 0.8rem;
+}
+
+article h2 a {
+    color: var(--text-primary);
+}
+
+article h2 a:hover {
+    color: var(--accent);
+}
+
+article p {
+    font-size: 0.96rem;
+    line-height: 1.65;
+    flex: 1;
+}
+
+/* Article Footer: Tags / Meta */
+article > footer {
+    margin-top: 1.4rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+article > footer small {
+    background-color: var(--bg-tag);
+    color: var(--text-secondary);
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+}
+
+/* Detail page article styling */
+main > article {
+    background-color: var(--bg-surface);
+    padding: 2.8rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-shadow);
+}
+
+main > article h1 {
+    margin: 0.5rem 0 1.5rem;
+}
+
+main > article > div {
+    font-size: 1.12rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    margin: 1.8rem 0;
+    padding: 1rem 0;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Detail page actions bar */
+main > article > nav,
+main > section > nav {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* ==========================================================================
+   BUTTONS & ACTION CALLS
+   ========================================================================== */
+
+button,
+input[type="submit"],
+input[type="button"],
+a[role="button"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.68rem 1.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--btn-text);
+    background-color: var(--btn-bg);
+    border: 1px solid var(--btn-bg);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1.2;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+a[role="button"]:hover {
+    background-color: var(--btn-hover-bg);
+    color: var(--btn-hover-text);
+    border-color: var(--btn-hover-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--accent-ring);
+}
+
+button:active,
+input[type="submit"]:active,
+input[type="button"]:active,
+a[role="button"]:active {
+    transform: translateY(0);
+}
+
+/* Secondary / Inverted button when sibling */
+nav a[role="button"] + a[role="button"],
+nav button + button {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+nav a[role="button"] + a[role="button"]:hover,
+nav button + button:hover {
+    border-color: var(--text-primary);
+    background-color: var(--bg-subtle);
+    color: var(--text-primary);
+}
+
+/* Navigation text link fallback */
+nav > a:not([role="button"]) {
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    padding: 0.6rem 0.8rem;
+}
+
+nav > a:not([role="button"]):hover {
+    color: var(--accent);
+}
+
+/* ==========================================================================
+   FORMS (Native Django {{ form.as_p }} Support)
+   ========================================================================== */
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form p {
+    margin-bottom: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="url"],
+input[type="date"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.85rem 1.05rem;
+    font-family: var(--font-sans);
+    font-size: 0.98rem;
+    color: var(--text-primary);
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-tertiary);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+    background-color: var(--bg-surface);
+}
+
+textarea {
+    min-height: 140px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23706b61' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.1rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+/* Django Error Lists */
+ul.errorlist,
+form > ul {
+    list-style: none;
+    background-color: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    padding: 0.8rem 1.2rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1.5rem;
+}
+
+ul.errorlist li,
+form > ul li {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--accent);
+    line-height: 1.5;
+}
+
+/* Form actions bar */
+form > nav {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+/* ==========================================================================
+   FOOTER (Archival Colophon)
+   ========================================================================== */
+
+body > footer {
+    border-top: 1px solid var(--border-color);
+    padding: 2.2rem 1.5rem;
+    margin-top: auto;
+    text-align: center;
+    background-color: var(--bg-canvas);
+}
+
+body > footer p {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   RESPONSIVE REFINEMENTS
+   ========================================================================== */
+
+@media (max-width: 680px) {
+    :root {
+        --header-height: 64px;
+    }
+
+    main {
+        padding: 2rem 1rem 3.5rem;
+    }
+
+    body > header nav {
+        padding: 0 1rem;
+    }
+
+    body > header nav div {
+        gap: 0.8rem;
+    }
+
+    body > header nav div a {
+        font-size: 0.76rem;
+    }
+
+    main section:has(> article),
+    main div:has(> article) {
+        grid-template-columns: 1fr;
+    }
+
+    main > article {
+        padding: 1.6rem;
+    }
+
+    main > section > header,
+    main > header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

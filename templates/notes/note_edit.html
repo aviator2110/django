@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    EDIT
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Edit Record — Archive{% endblock %}
+
+{% block content %}
+<article>
+    <header>
+        <small>Revision</small>
+        <time>Edit Entry</time>
+    </header>
+
+    <h1>Edit Record</h1>
+    <p>Update note details in the archive.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <nav>
+            <button type="submit">Update Record</button>
+            <a href="{% url 'notes_list' %}">Cancel</a>
+        </nav>
+    </form>
+</article>
+{% endblock %}
