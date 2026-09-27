@@ -79,7 +79,12 @@ def note_edit(request: HttpRequest, note_id: int) -> HttpResponse:
 
 
 def note_delete(request: HttpRequest, note_id: int) -> HttpResponse:
-    pass
+    note = data.get_note(note_id)
+    if request.method == 'POST':
+        data.delete_note(note_id)
+        return render(request, 'notes/note_delete.html', {'deleted': True, 'note': note})
+
+    return render(request, 'notes/note_delete.html', {'note': note})
 
 def contact(request: HttpRequest) -> HttpResponse:
     form = ContactForm()
