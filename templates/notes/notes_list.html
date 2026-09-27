@@ -20,7 +20,7 @@
         {% for note in notes %}
             <article>
                 <header>
-                    <small>No. {{ note.id }} &bull; {{ note.category }}</small>
+                    <small>No. {{ forloop.counter }} &bull; {{ note.category }}</small>
                     <time>{{ note.created_at|date:"M j, Y" }}</time>
                 </header>
 

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Feedback Sent — Archive{% endblock %}
+
+{% block content %}
+<article>
+    <header>
+        <small>Success</small>
+        <time>Delivered</time>
+    </header>
+
+    <h1>Feedback Sent Successfully</h1>
+    <p>Your message has been successfully submitted. Thank you for your feedback!</p>
+
+    <nav>
+        <a role="button" href="{% url 'home' %}">Return Home</a>
+    </nav>
+</article>
+{% endblock %}

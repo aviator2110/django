@@ -4,21 +4,26 @@
 
 {% block content %}
 <article>
-    <header>
-        <small>Correspondence</small>
-        <time>Feedback Form</time>
-    </header>
+    {% if success %}
+        <p>Message sent successfully!</p>
+        <a href="{% url 'home' %}">Return Home</a>
+    {% else %}
+        <header>
+            <small>Correspondence</small>
+            <time>Feedback Form</time>
+        </header>
 
-    <h1>Contact &amp; Feedback</h1>
-    <p>Send a message or inquiry to the archive maintainer.</p>
+        <h1>Contact &amp; Feedback</h1>
+        <p>Send a message or inquiry to the archive maintainer.</p>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <nav>
-            <button type="submit">Send Message</button>
-            <a href="{% url 'home' %}">Return Home</a>
-        </nav>
-    </form>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <nav>
+                <button type="submit">Send Message</button>
+                <a href="{% url 'home' %}">Return Home</a>
+            </nav>
+        </form>
+    {% endif %}
 </article>
 {% endblock %}

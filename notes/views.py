@@ -87,9 +87,35 @@ def note_delete(request: HttpRequest, note_id: int) -> HttpResponse:
     return render(request, 'notes/note_delete.html', {'note': note})
 
 def contact(request: HttpRequest) -> HttpResponse:
-    form = ContactForm()
-
-    if form.is_valid():
-        pass
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            request.session['feedback_data'] = form.cleaned_data
+            return redirect('feedback_confirm')
+    else:
+        feedback_data = request.session.get('feedback_data')
+        form = ContactForm(initial=feedback_data) if feedback_data else ContactForm()
 
     return render(request, 'notes/contact.html', {'form': form})
+
+
+def feedback_confirm(request: HttpRequest, form: ContactForm | None = None) -> HttpResponse:
+    feedback_data = request.session.get('feedback_data')
+    if not feedback_data:
+        return redirect('notes_feedback')
+
+    if request.method == 'POST':
+        if request.POST.get('action') == 'back':
+            return redirect('notes_feedback')
+
+        request.session.pop('feedback_data', None)
+        return redirect('feedback_success')
+
+    return render(request, 'notes/feedback_confirm.html', {
+        'feedback': feedback_data,
+        'data': feedback_data,
+    })
+
+
+def feedback_success(request: HttpRequest) -> HttpResponse:
+    return render(request, 'notes/feedback_success.html')

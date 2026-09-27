@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Confirm Feedback — Archive{% endblock %}
+
+{% block content %}
+<article>
+    <header>
+        <small>Correspondence</small>
+        <time>Verification Step</time>
+    </header>
+
+    <h1>Confirm Feedback</h1>
+    <p>Please review your details before final submission.</p>
+
+    <div>
+        <p><strong>Name:</strong> {{ feedback.name }}</p>
+        <p><strong>Email:</strong> {{ feedback.email }}</p>
+        <p><strong>Message:</strong></p>
+        <p>{{ feedback.message|linebreaks }}</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <nav>
+            <button type="submit">Confirm</button>
+            <a role="button" href="{% url 'notes_feedback' %}">Back</a>
+        </nav>
+    </form>
+</article>
+{% endblock %}

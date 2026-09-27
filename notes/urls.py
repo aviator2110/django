@@ -10,4 +10,6 @@ urlpatterns = [
     path("<int:note_id>/edit/", views.note_edit, name="note_edit"),
     path("<int:note_id>/delete/", views.note_delete, name="note_delete"),
     path('feedback/', views.contact, name='notes_feedback'),
+    path('feedback/confirm/', views.feedback_confirm, name='feedback_confirm'),
+    path('feedback/success/', views.feedback_success, name='feedback_success'),
 ]
