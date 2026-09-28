@@ -29,9 +29,9 @@
         {% endif %}
 
         <nav>
-            <a role="button" href="{% url 'note_edit' note.id %}">Edit</a>
-            <a role="button" href="{% url 'note_delete' note.id %}">Delete</a>
-            <a href="{% url 'notes_list' %}">← Back to Notes</a>
+            <a role="button" href="{% url 'notes:note_edit' note.id %}">Edit</a>
+            <a role="button" href="{% url 'notes:note_delete' note.id %}">Delete</a>
+            <a href="{% url 'notes:notes_list' %}">← Back to Notes</a>
         </nav>
     </article>
 {% else %}
@@ -45,7 +45,7 @@
         <p>The requested note does not exist in the catalog or has been moved or deleted.</p>
 
         <nav>
-            <a role="button" href="{% url 'notes_list' %}">← Return to Notes List</a>
+            <a role="button" href="{% url 'notes:notes_list' %}">← Return to Notes List</a>
         </nav>
     </article>
 {% endif %}

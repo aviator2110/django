@@ -12,7 +12,7 @@
             <p>Total archival records: <strong>{{ total }}</strong></p>
         </div>
 
-        <a role="button" href="{% url 'note_create' %}">+ New Record</a>
+        <a role="button" href="{% url 'notes:note_create' %}">+ New Record</a>
     </header>
     {% endwith %}
 
@@ -25,7 +25,7 @@
                 </header>
 
                 <h2>
-                    <a href="{% url 'note_detail' note.id %}">{{ note.title|title }}</a>
+                    <a href="{% url 'notes:note_detail' note.id %}">{{ note.title|title }}</a>
                 </h2>
 
                 <p>
@@ -42,7 +42,7 @@
             <article>
                 <h2>Archive is Empty</h2>
                 <p>No saved entries have been cataloged in the archive yet.</p>
-                <a role="button" href="{% url 'note_create' %}">Create First Record</a>
+                <a role="button" href="{% url 'notes:note_create' %}">Create First Record</a>
             </article>
         {% endfor %}
     </section>
