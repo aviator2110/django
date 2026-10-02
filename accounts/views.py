@@ -63,3 +63,7 @@ def logout_view(request):
 
 def register_success(request):
     return render(request, 'accounts/register_success.html')
+
+
+def logout_confirm(request):
+    return render(request, 'accounts/logout_confirm.html')

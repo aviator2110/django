@@ -1,3 +1,4 @@
+from notes.models import Note
 from django import forms
 
 FORBIDDEN_WORDS = ['spam', 'scam', 'hack', 'idiot', 'stupid', 'fake']
@@ -58,36 +59,24 @@ class ContactForm(forms.Form):
         return message
 
 
-class NoteForm(forms.Form):
-    CATEGORY_CHOICES = [
-        ('study', 'Study'),
-        ('work', 'Work'),
-        ('backend', 'Backend'),
-        ('frontend', 'Frontend'),
-        ('other', 'Other'),
-    ]
-    title = forms.CharField(
-        label='Title',
-        min_length=1,
-        max_length=50,
-        widget=forms.TextInput(attrs={'placeholder': 'Enter your title'})
-    )
-    content = forms.CharField(
-        label='Content',
-        min_length=1,
-        max_length=1000,
-        widget=forms.Textarea(attrs={'placeholder': 'Enter your content', 'rows': 6})
-    )
-    tags = forms.CharField(
-        label='Tags',
-        min_length=1,
-        max_length=200,
-        widget=forms.TextInput(attrs={'placeholder': 'Enter your tags. Example: django python...'})
-    )
-    category = forms.ChoiceField(
-        choices=CATEGORY_CHOICES,
-        label='Category',
-    )
+class NoteForm(forms.ModelForm):
+    class Meta:
+        model = Note
+        fields = ['title', 'content', 'category', 'tags']
+
+        labels = {
+            'title': 'Title',
+            'content': 'Content',
+            'category': 'Category',
+            'tags': 'Tags',
+        }
+
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder': 'Enter your title'}),
+            'content': forms.Textarea(attrs={'placeholder': 'Enter your content', 'rows': 6}),
+            'category': forms.Select(),
+            'tags': forms.SelectMultiple(),
+        }
 
     def clean_title(self):
         title = self.cleaned_data['title'].strip()

@@ -1,9 +1,11 @@
+from django.contrib import messages
+from django.shortcuts import get_object_or_404
 from django.http import HttpRequest, HttpResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.html import escape
-
+from notes.models import Note, Category, Tag
 from notes import data
 from notes.forms import ContactForm, NoteForm
 
@@ -19,13 +21,16 @@ def about(request: HttpRequest) -> HttpResponse:
 
 
 def notes_list(request: HttpRequest) -> HttpResponse:
-    notes = data.list_notes()
+    notes = Note.objects.select_related('author', 'category').prefetch_related('tags').order_by('-created_at')
 
     return render(request, 'notes/notes_list.html', {'notes': notes})
 
 
 def note_detail(request: HttpRequest, note_id: int) -> HttpResponse:
-    note = data.get_note(note_id)
+    note = get_object_or_404(
+        Note.objects.select_related('author', 'category').prefetch_related('tags'),
+        pk=note_id
+    )
 
     return render(request, 'notes/note_detail.html', {'note': note})
 
@@ -34,22 +39,12 @@ def note_create(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         form = NoteForm(request.POST)
         if form.is_valid():
-            notes = request.session.get('notes', [])
-            notes.append({
-                'title': form.cleaned_data['title'],
-                'content': form.cleaned_data['content'],
-                'category': form.cleaned_data['category'],
-                'tags': form.cleaned_data['tags'],
-            })
-            request.session['notes'] = notes
-            data.create_note(
-                title=form.cleaned_data['title'],
-                content=form.cleaned_data['content'],
-                category=form.cleaned_data['category'],
-                tags=form.cleaned_data['tags'].split(' ')
-            )
-
-            return redirect('notes_list')
+            note = form.save(commit=False)
+            note.author = request.user
+            note.save()
+            form.save_m2m()
+            messages.success(request, 'Note created successfully')
+            return redirect('notes:note_detail', note_id=note.pk)
     else:
         form = NoteForm()
     return render(request, 'notes/note_create.html', {'form': form})
