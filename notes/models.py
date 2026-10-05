@@ -9,6 +9,9 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
         ordering = ['name']
 
+    def __str__(self):
+        return self.name
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -17,6 +20,8 @@ class Tag(models.Model):
         verbose_name_plural = 'Tags'
         ordering = ['name']
 
+    def __str__(self):
+        return self.name
 
 class Note(models.Model):
     title = models.CharField(max_length=50)
@@ -45,3 +50,6 @@ class Note(models.Model):
         verbose_name = 'Note'
         verbose_name_plural = 'Notes'
         ordering = ['-created_at']
+
+    def __str__(self):
+        return self.title

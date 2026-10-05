@@ -1,5 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth import authenticate, get_user_model, login
+from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.shortcuts import render, redirect
 
 from accounts.forms import LoginForm, RegisterForm
@@ -57,7 +58,12 @@ def dashboard_view(request):
     return render(request, 'accounts/dashboard.html')
 
 
+@login_required
 def logout_view(request):
+    if request.method == 'POST':
+        logout(request)
+        messages.success(request, 'You have been successfully logged out.')
+        return redirect('accounts:login')
     return render(request, 'accounts/logout_confirm.html')
 
 
@@ -65,5 +71,6 @@ def register_success(request):
     return render(request, 'accounts/register_success.html')
 
 
+@login_required
 def logout_confirm(request):
-    return render(request, 'accounts/logout_confirm.html')
+    return logout_view(request)

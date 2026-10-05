@@ -22,9 +22,9 @@
             <p>{{ note.content|linebreaks }}</p>
         </div>
 
-        {% if note.tags %}
+        {% if note.tags.all %}
             <footer>
-                <small>Tags: {{ note.tags|join:", " }}</small>
+                <small>Tags: {{ note.tags.all|join:", " }}</small>
             </footer>
         {% endif %}
 

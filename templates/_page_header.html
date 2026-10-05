@@ -10,7 +10,14 @@
             <a href="{% url 'notes:notes_list' %}">Notes</a>
             <a href="{% url 'about' %}">About</a>
             <a href="{% url 'notes:notes_feedback' %}">Contact</a>
-            <a href="{% url 'notes:note_create' %}">+ New Note</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'accounts:dashboard' %}">Dashboard</a>
+                <a href="{% url 'accounts:logout' %}">Logout</a>
+                <a href="{% url 'notes:note_create' %}">+ New Note</a>
+            {% else %}
+                <a href="{% url 'accounts:login' %}">Login</a>
+                <a href="{% url 'accounts:register' %}">Register</a>
+            {% endif %}
         </div>
     </nav>
 </header>

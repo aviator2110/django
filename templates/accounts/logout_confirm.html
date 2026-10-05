@@ -1,10 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block title %}Log Out — Archive{% endblock %}
+
+{% block content %}
+<article>
+    {% if user.is_authenticated %}
+        <header>
+            <small>Session &bull; Security</small>
+            <time>Confirmation Required</time>
+        </header>
+
+        <h1>Log Out</h1>
+        <p>Are you sure you want to end your session, <strong>{{ user.username }}</strong>?</p>
+
+        <form method="post" action="{% url 'accounts:logout' %}">
+            {% csrf_token %}
+            <nav>
+                <button type="submit">Confirm Log Out</button>
+                <a href="{% url 'accounts:dashboard' %}">Cancel</a>
+            </nav>
+        </form>
+    {% else %}
+        <header>
+            <small>Session</small>
+            <time>Notice</time>
+        </header>
+
+        <h1>Not Logged In</h1>
+        <p>You are not currently logged in to any account.</p>
+
+        <nav>
+            <a role="button" href="{% url 'accounts:login' %}">Log In</a>
+            <a href="{% url 'home' %}">← Return Home</a>
+        </nav>
+    {% endif %}
+</article>
+{% endblock %}

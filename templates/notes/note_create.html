@@ -1,24 +1,46 @@
 {% extends "base.html" %}
 
-{% block title %}New Record — Archive{% endblock %}
+{% block title %}
+    {% if user.is_authenticated %}
+        New Record — Archive
+    {% else %}
+        Access Restricted — Archive
+    {% endif %}
+{% endblock %}
 
 {% block content %}
 <article>
-    <header>
-        <small>Catalog Registration</small>
-        <time>New Entry</time>
-    </header>
+    {% if user.is_authenticated %}
+        <header>
+            <small>Catalog Registration</small>
+            <time>New Entry</time>
+        </header>
 
-    <h1>New Record</h1>
-    <p>Provide details below to catalog this entry in the archive.</p>
+        <h1>New Record</h1>
+        <p>Provide details below to catalog this entry in the archive.</p>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <nav>
+                <button type="submit">Save to Archive</button>
+                <a href="{% url 'notes:notes_list' %}">Cancel</a>
+            </nav>
+        </form>
+    {% else %}
+        <header>
+            <small>Session</small>
+            <time>Authentication Required</time>
+        </header>
+
+        <h1>Access Restricted</h1>
+        <p>You must be logged in to create a note. Please log in to your account or register to continue.</p>
+
         <nav>
-            <button type="submit">Save to Archive</button>
+            <a role="button" href="{% url 'accounts:login' %}">Log In</a>
+            <a role="button" href="{% url 'accounts:register' %}">Register</a>
             <a href="{% url 'notes:notes_list' %}">Cancel</a>
         </nav>
-    </form>
+    {% endif %}
 </article>
 {% endblock %}

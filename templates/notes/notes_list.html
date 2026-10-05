@@ -32,9 +32,9 @@
                     {{ note.content|truncatewords:22 }}
                 </p>
 
-                {% if note.tags %}
+                {% if note.tags.all %}
                     <footer>
-                        <small>Tags: {{ note.tags|join:", " }}</small>
+                        <small>Tags: {{ note.tags.all|join:", " }}</small>
                     </footer>
                 {% endif %}
             </article>

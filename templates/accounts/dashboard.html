@@ -1,12 +1,43 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Dashboard - My Notes{% endblock %}
+{% block title %}
+    {% if user.is_authenticated %}
+        Dashboard — Archive
+    {% else %}
+        Access Notice — Archive
+    {% endif %}
+{% endblock %}
 
 {% block content %}
-    <h1>Dashboard</h1>
-    <h2>User: {{ user.username }}</h2>
-    <a href="{% url 'notes:notes_list' %}">Notes list</a>
-    <a href="{% url 'notes:note_create' %}">Create note</a>
-    <a href="{% url 'home' %}">Home</a>
-    <a href="{% url 'accounts:logout' %}">Logout</a>
+<article>
+    {% if user.is_authenticated %}
+        <header>
+            <small>Account &bull; Overview</small>
+            <time>Active Session</time>
+        </header>
+
+        <h1>Dashboard</h1>
+        <p>User: <strong>{{ user.username }}</strong></p>
+
+        <nav>
+            <a role="button" href="{% url 'notes:notes_list' %}">Notes list</a>
+            <a role="button" href="{% url 'notes:note_create' %}">+ Create note</a>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'accounts:logout' %}">Logout</a>
+        </nav>
+    {% else %}
+        <header>
+            <small>Session</small>
+            <time>Notice</time>
+        </header>
+
+        <h1>Access Restricted</h1>
+        <p>You need to be logged in to view your dashboard. Please return to the home page or sign in.</p>
+
+        <nav>
+            <a role="button" href="{% url 'home' %}">← Return to Home Page</a>
+            <a href="{% url 'accounts:login' %}">Login</a>
+        </nav>
+    {% endif %}
+</article>
 {% endblock %}
