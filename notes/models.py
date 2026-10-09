@@ -24,8 +24,17 @@ class Tag(models.Model):
         return self.name
 
 class Note(models.Model):
+    STATUS_CHOICES = (
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+    )
     title = models.CharField(max_length=50)
     content = models.TextField(max_length=1000)
+    status = models.CharField(
+        max_length=50,
+        choices=STATUS_CHOICES,
+        default='draft',
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
